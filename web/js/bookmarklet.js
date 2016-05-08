@@ -88,6 +88,7 @@
 						});
 						$iframe.on('click', function () {
 							if (MB.code) {
+								Q.Dialogs.pop();
 								eval(MB.code);
 								MB.code = null;
 							}
@@ -97,10 +98,9 @@
 								if (e.origin !== baseDomain) {
 									return;
 								}
+								// TODO: make sure that baseDomain starts with https!!!
 								var parts = e.data.split("\t");
 								if (parts[0] === 'code') {
-									Q.Dialogs.pop();
-									// TODO: make sure that baseDomain starts with https!
 									MB.code = parts.slice(1).join("\t");
 								}
 							});
