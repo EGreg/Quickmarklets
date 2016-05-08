@@ -9,7 +9,7 @@
 				"Users": "0.9",
 				"Streams": "0.9"
 			},
-			"connections": []
+			"connections": ["QM"]
 		},
 		"plugins": ["Users", "Streams"],
 		"handlersBeforeEvent": {
@@ -75,7 +75,8 @@
 			"QM/bookmarklet": {
 				"title": "Untitled Bookmarklet",
 				"create": true,
-				"edit": true
+				"edit": true,
+				"extend": ["QM_Bookmarklet"]
 			}
 		}
 	}

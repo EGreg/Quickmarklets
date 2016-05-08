@@ -79,7 +79,7 @@ var QM = (function (Q, $) {
 			Q.Streams.create({
 				'type': 'QM/bookmarklet',
 				'title': title,
-				'content': ,
+				'code': code,
 				'icon': Q.url('img/icon')
 			}, function () {
 				Q.Tool.byId('Streams_related').refresh();
@@ -91,7 +91,7 @@ var QM = (function (Q, $) {
 		}, false);
 		$('body').on('click', '.QM_bookmarklet_preview_tool', true, function () {
 			var stream = this.Q.tool.preview.stream;
-			var msg = "eval\t" + stream.fields.content;
+			var msg = "eval\t" + stream.fields.code;
 			window.top.postMessage(msg, '*');
 		});
 	});
