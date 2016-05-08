@@ -72,10 +72,14 @@ var QM = (function (Q, $) {
 			var parts = e.data.split("\t");
 			var title = parts[1];
 			var href = parts[2];
+			var code = decodeURIComponent(href);
+			if (code.substr(0, 11) === 'javascript:') {
+				code = code.substr(11);
+			}
 			Q.Streams.create({
 				'type': 'QM/bookmarklet',
 				'title': title,
-				'content': decodeURIComponent(href),
+				'content': ,
 				'icon': Q.url('img/icon')
 			}, function () {
 				Q.Tool.byId('Streams_related').refresh();
