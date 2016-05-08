@@ -70,24 +70,34 @@ var QM = (function (Q, $) {
 	Q.page("QM/iframe", function () {
 	    window.addEventListener("message", function (e) {
 			var parts = e.data.split("\t");
-			var title = parts[1];
-			var href = parts[2];
-			var code = decodeURIComponent(href);
-			if (code.substr(0, 11) === 'javascript:') {
-				code = code.substr(11);
+			switch (parts[0]) {
+			case 'start':
+				var x = parts[1];
+				var y = parts[2];
+				var element = document.elementFromPoint(x, y);
+				$(element).trigger(Q.Pointer.start);
+				break;
+			case 'add':
+				var title = parts[1];
+				var href = parts[2];
+				var code = decodeURIComponent(href);
+				if (code.substr(0, 11) === 'javascript:') {
+					code = code.substr(11);
+				}
+				Q.Streams.create({
+					'type': 'QM/bookmarklet',
+					'title': title,
+					'code': code,
+					'icon': Q.url('img/icon')
+				}, function () {
+					Q.Tool.byId('Streams_related').refresh();
+				}, {
+					publisherId: Q.Users.loggedInUserId(),
+					streamName: 'QM/bookmarklets',
+					type: 'bookmarklets'
+				});
+				break;
 			}
-			Q.Streams.create({
-				'type': 'QM/bookmarklet',
-				'title': title,
-				'code': code,
-				'icon': Q.url('img/icon')
-			}, function () {
-				Q.Tool.byId('Streams_related').refresh();
-			}, {
-				publisherId: Q.Users.loggedInUserId(),
-				streamName: 'QM/bookmarklets',
-				type: 'bookmarklets'
-			});
 		}, false);
 		$('body').on(Q.Pointer.start, '.QM_bookmarklet_preview_tool', true, function () {
 			var stream = this.Q.tool.preview.stream;

@@ -72,26 +72,48 @@
 					title: 'Quickmarklets',
 					content: html,
 					onActivate: function () {
-						var $new = $('.QM_button_new', this).click(function () {
-							$('.QM_found_links').slideDown();
-						});
 						var $iframe = $('iframe', this);
+						var $clickjack = $('.QM_clickjack', this);
+						var $new = $('.QM_button_new', this).click(function () {
+							$('.QM_found_links').slideDown(300, function () {
+								var position = $iframe.position();
+								$clickjack.css({
+									left: position.left + 'px',
+									top: position.top + 'px',
+									width: $iframe.outerWidth() + 'px',
+									height: $iframe.outerHeight() + 'px'
+								});
+							});
+						});
 						var $add = $('.QM_button_add', this).click(function () {
 							var $this = $(this);
 							var args = [
-								"Add", 
+								"add", 
 								$this.text(), 
 								$this.attr('data-code')
 							];
 							var msg = args.join("\t");
 							$iframe[0].contentWindow.postMessage(msg, baseDomain);
 						});
-						$iframe.on('click', function () {
+						var position = $iframe.position();
+						$clickjack.css({
+							left: position.left + 'px',
+							top: position.top + 'px',
+							width: $iframe.outerWidth() + 'px',
+							height: $iframe.outerHeight() + 'px'
+						}).on('click', function () {
 							if (QM.code) {
 								Q.Dialogs.pop();
 								eval(QM.code);
 								QM.code = null;
 							}
+						}).on(Q.Pointer.start, function (e) {
+							var offset = $iframe.offset();
+							var x = Q.Pointer.getX(e) - offset.left;
+							var y = Q.Pointer.getY(e) - offset.top;
+							var args = ["start", x, y];
+							var msg = args.join("\t");
+							$iframe[0].contentWindow.postMessage(msg, baseDomain);
 						});
 						if (!QM.addedMessageListener) {
 							window.addEventListener("message", function (e) {
@@ -149,6 +171,7 @@
 				+ '</ul>'
 			+ '{{/if}}'
 			+ '<iframe src="{{baseUrl}}/iframe"></iframe>'
+			+ '<div class="QM_clickjack"></div>'
 			+ '</div>'
 		);
 	}
