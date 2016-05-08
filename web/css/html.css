@@ -31,13 +31,6 @@ h2.slogan { color: #157efb; }
 .QM_logo { position: absolute; top: 0; left: 0; }
 .QM_bookmarklet_container { margin: auto; }
 .QM_dialog { text-align: center; }
-.QM_button_new {
-	background: #449944; /* for non-css3 browsers */
-
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#449944', endColorstr='#227722'); /* for IE */
-	background: -webkit-gradient(linear, left top, left bottom, from(#449944), to(#227722)); /* for webkit browsers */
-	background: -moz-linear-gradient(top,  #449944,  #227722); /* for firefox 3.6+ */
-}
 
 #dashboard_slot {
     z-index: 900;
@@ -53,8 +46,3 @@ h2.slogan { color: #157efb; }
     background: -moz-linear-gradient(top, #333333, #444444);
     height: 50px;
 }
-
-.Q_dialog_mask { z-index: 9999999;}
-.Q_overlay { z-index: 10000000; }
-
-.QM_found_links { display: none; }

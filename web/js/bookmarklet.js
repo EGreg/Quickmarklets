@@ -29,6 +29,7 @@
 				"Q.info.baseUrl": QM.baseUrl
 			});
 			var title = 'Quickmarklets';
+			prepare();
 			var found = {};
 			$('a').each(function () {
 				var $this = $(this);
@@ -55,9 +56,14 @@
 			// });
 			
 			var fields = {
-				found: found
+				found: found,
+				notEmpty: !Q.isEmpty(found)
 			};
 			Q.Template.render('QM/dialog', fields, function (err, html) {
+				if (err) {
+					return alert(Q.firstErrorMessage(err));
+				}
+				Q.addStylesheet('css/bookmarklet.css');
 				Q.Dialogs.push({
 					title: 'Quickmarklets',
 					content: html,
@@ -75,7 +81,6 @@
 
 	};
 	
-	prepare();
 	QMB.invoke(); // when loading this script
 
     function loadScript(url, callback) {
@@ -103,7 +108,7 @@
 	function prepare() {
 		Q.Template.set('QM/dialog', 
 			'<div class="QM_dialog">'
-			+ '{{#if found}}'
+			+ '{{#if notEmpty}}'
 				+ '<button class="Q_button QM_button_new Q_tool Q_clickable_tool">+ Add New Bookmarklet</button>'
 				+ '<ul class="QM_found_links">'
 					+ '{{#each found}}'
