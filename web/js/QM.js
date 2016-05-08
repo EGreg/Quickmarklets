@@ -65,13 +65,26 @@ var QM = (function (Q, $) {
 	Q.page("QM/iframe", function () {
 	    window.addEventListener("message", function (e) {
 			var parts = e.data.split("\t");
-			var title = parts[0];
-			var href = parts[1];
-			localStorage[href] = title;
-			//if(e.origin !== 'B'){ return; } 
-			alert(e.origin);
-			alert(e.data);
+			var title = parts[1];
+			var href = parts[2];
+			Q.Streams.create({
+				'type': 'QM/bookmarklet',
+				'title': title,
+				'content': decodeURIComponent(href),
+				'icon': Q.url('img/icon')
+			}, function () {
+				Q.Tool.byId('Streams_related').refresh();
+			}, {
+				publisherId: Q.Users.loggedInUserId(),
+				streamName: 'QM/bookmarklets',
+				type: 'bookmarklets'
+			});
 		}, false);
+		$('body').on('click', '.QM_bookmarklet_preview_tool', function () {
+			var stream = this.Q.tool.preview.stream;
+			var msg = "eval\t" + stream.fields.content;
+			window.top.postMessage(msg, '*');
+		});
 	});
 	
 	// example stream

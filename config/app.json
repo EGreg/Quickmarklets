@@ -74,8 +74,8 @@
 		"types": {
 			"QM/bookmarklet": {
 				"title": "Untitled Bookmarklet",
-				"creatable": true,
-				"editable": true
+				"create": true,
+				"edit": true
 			}
 		}
 	}

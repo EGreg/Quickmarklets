@@ -9,6 +9,7 @@
 
 		var urlQ = QM.baseUrl + "/plugins/Q/js/Q.js";
 		var urlJ = "https://code.jquery.com/jquery-1.11.3.min.js";
+		var baseDomain = QM.baseUrl.split('/').slice(0, 3).join('/');
 		
 		if (!w.jQuery || !jQuery.fn || jQuery.fn.jquery < 1.6) {
 			loadScript(urlJ, _J);
@@ -75,17 +76,23 @@
 						});
 						var $iframe = $('iframe', this);
 						var $add = $('.QM_button_add', this).click(function () {
-							
-							$iframe[0].contentWindow.postMessage(msg, '*');
-							// Q.Streams.create({
-							// 	'type': 'QM/bookmarklet'
-							// }, function () {
-							//
-							// }, {
-							// 	publisherId: Q.loggedInUserId(),
-							// 	streamName: 'QM/bookmarklets'
-							// });
-							// TODO: add the actual thing
+							var $this = $(this);
+							var args = [
+								"Add", 
+								$this.text(), 
+								$this.attr('data-code')
+							];
+							var msg = args.join("\t");
+							$iframe[0].contentWindow.postMessage(msg, baseDomain);
+							window.addEventListener("message", function (e) {
+								if (e.origin !== baseDomain) {
+									return;
+								}
+								var parts = e.data.split("\t");
+								if (parts[0] === 'eval') {
+									eval(parts[1]) // TODO: make sure that baseDomain starts with https!
+								}
+							});
 						});
 					}
 				});

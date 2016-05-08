@@ -50,3 +50,7 @@ h2.slogan { color: #157efb; }
 html.QM_iframe {
 	background: url(../plugins/Q/img/bg/overlay.png);
 }
+
+html.QM_iframe #content {
+	width: 100%;
+}
