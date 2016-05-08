@@ -87,10 +87,10 @@
 							$iframe[0].contentWindow.postMessage(msg, baseDomain);
 						});
 						$iframe.on('click', function () {
-							if (MB.code) {
+							if (QM.code) {
 								Q.Dialogs.pop();
-								eval(MB.code);
-								MB.code = null;
+								eval(QM.code);
+								QM.code = null;
 							}
 						});
 						if (!QM.addedMessageListener) {
@@ -101,7 +101,7 @@
 								// TODO: make sure that baseDomain starts with https!!!
 								var parts = e.data.split("\t");
 								if (parts[0] === 'code') {
-									MB.code = parts.slice(1).join("\t");
+									QM.code = parts.slice(1).join("\t");
 								}
 							});
 							QM.addedMessageListener = true;
