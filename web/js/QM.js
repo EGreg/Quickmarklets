@@ -23,9 +23,12 @@ var QM = (function (Q, $) {
 	Q.page('', function () {
 		
 		$('.QM_login').on(Q.Pointer.click, function () {
-			Q.Users.login({
-				successUrl: Q.url('iframe')
-			});
+			Q.Users.login();
+			return false;
+		});
+		
+		$('.QM_login_iframe').on(Q.Pointer.click, function () {
+			Q.Users.login({successUrl: Q.url('iframe')});
 			return false;
 		});
 		
