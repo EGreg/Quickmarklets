@@ -86,16 +86,22 @@
 							var msg = args.join("\t");
 							$iframe[0].contentWindow.postMessage(msg, baseDomain);
 						});
+						$iframe.on('click', function () {
+							if (MB.code) {
+								eval(MB.code);
+								MB.code = null;
+							}
+						});
 						if (!QM.addedMessageListener) {
 							window.addEventListener("message", function (e) {
 								if (e.origin !== baseDomain) {
 									return;
 								}
 								var parts = e.data.split("\t");
-								if (parts[0] === 'eval') {
+								if (parts[0] === 'code') {
 									Q.Dialogs.pop();
 									// TODO: make sure that baseDomain starts with https!
-									eval(parts.slice(1).join("\t"));
+									MB.code = parts.slice(1).join("\t");
 								}
 							});
 							QM.addedMessageListener = true;

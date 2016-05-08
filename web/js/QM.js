@@ -89,9 +89,9 @@ var QM = (function (Q, $) {
 				type: 'bookmarklets'
 			});
 		}, false);
-		$('body').on('click', '.QM_bookmarklet_preview_tool', true, function () {
+		$('body').on(Q.Pointer.start, '.QM_bookmarklet_preview_tool', true, function () {
 			var stream = this.Q.tool.preview.stream;
-			var msg = "eval\t" + stream.fields.code;
+			var msg = "code\t" + stream.fields.code;
 			window.top.postMessage(msg, '*');
 		});
 	});
