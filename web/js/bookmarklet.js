@@ -26,6 +26,7 @@
 		}
 		
 		function _Q() {
+			var $ = jQuery;
 			Q.setObject({
 				"Q.info.baseUrl": QM.baseUrl
 			});
