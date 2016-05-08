@@ -85,7 +85,7 @@ var QM = (function (Q, $) {
 				type: 'bookmarklets'
 			});
 		}, false);
-		$('body').on('click', '.QM_bookmarklet_preview_tool', function () {
+		$('body').on('click', '.QM_bookmarklet_preview_tool', true, function () {
 			var stream = this.Q.tool.preview.stream;
 			var msg = "eval\t" + stream.fields.content;
 			window.top.postMessage(msg, '*');
