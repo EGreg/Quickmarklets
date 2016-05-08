@@ -1,0 +1,73 @@
+{
+	"Q": {
+		"app": "QM",
+		"appInfo" : {
+			"version" : "0.1",
+			"compatible": "0.1",
+			"requires": {
+				"Q": "0.8",
+				"Users": "0.8.2",
+				"Streams": "0.8.2"
+			},
+			"connections": []
+		},
+		"plugins": ["Users", "Streams"],
+		"handlersBeforeEvent": {
+			"Q/responseExtras": ["QM/before/Q_responseExtras"]
+		},
+		"handlersAfterEvent": {
+			
+		},
+		"routes": {
+			"": {"module": "QM", "action": "welcome"},
+			"facebook/": {"module": "QM", "action": "welcome", "facebook": 1},
+			"facebook/:action.html": {"module": "QM", "facebook": 1},
+			":action": {"module": "QM"}
+		},
+		"response": {
+			"slotNames": ["dashboard", "content", "dialogs", "title", "notices"],
+			"ajax": [],
+			"layout": {
+				"desktop": "QM/layout/desktop.php",
+				"tablet": "QM/layout/tablet.php",
+				"mobile": "QM/layout/mobile.php"
+			}
+		},
+		"exception": {
+			"showTrace": true,
+			"showFileAndLine": true
+		},
+		"node": {
+			"headers": {
+				"Access-Control-Allow-Origin": "*"
+			}
+		}
+	},
+	"Users": {
+		"transactional": {
+			"activation": {
+				"subject": "Welcome! Please verify your email address."
+			},
+			"identifier": {
+				"subject": "Welcome! Verify your email address.",
+				"body": "QM/email/addEmail.php",
+				"sms": "QM/sms/addMobile.php"
+			},
+			"resend": {
+				"subject": "Hey, did you forget your passphrase?",
+				"body": "Users/email/resend.php",
+				"sms": "Users/sms/resend.php"
+			},
+			"authenticated": {
+				"subject": false,
+				"body": false
+			}
+		},
+		"uris": {
+			"QM/afterActivate": "QM/home"
+		},
+		"login": {
+			"identifierType": "email,mobile"
+		}
+	}
+}
