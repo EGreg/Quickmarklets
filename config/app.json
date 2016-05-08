@@ -5,9 +5,9 @@
 			"version" : "0.1",
 			"compatible": "0.1",
 			"requires": {
-				"Q": "0.8",
-				"Users": "0.8.2",
-				"Streams": "0.8.2"
+				"Q": "0.9",
+				"Users": "0.9",
+				"Streams": "0.9"
 			},
 			"connections": []
 		},
