@@ -63,6 +63,11 @@
 <!-- - - - - - - - - - - - - - - end dialogs slot- - - - - - - - - - - - - - - - -->
 		</div>
 	</div>
+	<div id="footer_slot">
+<!-- - - - - - - - - - - - - - begin dialogs slot- - - - - - - - - - - - - - - - -->
+<?php echo $footer; ?> 
+<!-- - - - - - - - - - - - - - - end dialogs slot- - - - - - - - - - - - - - - - -->
+	</div>
 	<?php echo Q_Response::scripts(true, "\n\t") ?> 
 	<?php echo Q_Response::templates(true, "\n\t") ?> 
 	<?php echo Q_Response::scriptLines(true) ?> 

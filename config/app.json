@@ -25,7 +25,7 @@
 			":action": {"module": "QM"}
 		},
 		"response": {
-			"slotNames": ["dashboard", "content", "dialogs", "title", "notices"],
+			"slotNames": ["dashboard", "content", "dialogs", "title", "notices", "footer"],
 			"ajax": [],
 			"layout": {
 				"desktop": "QM/layout/desktop.php",

@@ -1,6 +1,9 @@
-html, body { height: 100%; }
+html.Q_notTouchscreen, html.Q_notTouchscreen body { height: 100%; position: relative; }
 
-#QM_footer { bottom: 0; }
+#footer { width: 100%; text-align: center; font-size: 24px; }
+.Q_notMobile #footer { padding: 20px; position: absolute; bottom: 0;  }
+#footer_slot img { height: 30px; vertical-align: middle; }
+#footer_slot a { color: #0d2636; text-decoration: underline; }
 
 #dashboard_slot { cursor: default; }
 #dashboard_slot * { font-size: 24px; }
@@ -22,9 +25,10 @@ html, body { height: 100%; }
 }
 
 .Q_mobile h2.slogan { display: none; }
+h1.QM_app_title { text-indent: 60px; position: relative; }
 h2.slogan { color: #157efb; }
 
-.QM_logo { vertical-align: top; }
+.QM_logo { position: absolute; top: 0; left: 0; }
 .QM_bookmarklet_container { margin: auto; }
 .QM_dialog { text-align: center; }
 .QM_button_new {

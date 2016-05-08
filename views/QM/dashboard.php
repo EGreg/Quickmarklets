@@ -1,5 +1,5 @@
 <div id='dashboard'>
-	<h1>
+	<h1 class="QM_app_title">
 		<?php echo Q_Html::img('img/icon/70.png', 'Quickmarklets', array('class' => 'QM_logo')) ?>
 		Quickmarklets
 	</h1>
