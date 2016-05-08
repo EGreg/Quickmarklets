@@ -92,6 +92,7 @@
 							}
 							var parts = e.data.split("\t");
 							if (parts[0] === 'eval') {
+								Q.Dialogs.pop();
 								eval(parts[1]) // TODO: make sure that baseDomain starts with https!
 							}
 						});
