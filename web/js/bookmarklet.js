@@ -29,14 +29,17 @@
 				"Q.info.baseUrl": QM.baseUrl
 			});
 			var title = 'Quickmarklets';
-			var links = {};
+			var found = {};
 			$('a').each(function () {
-				var href = $(this).attr('href');
+				var $this = $(this);
+				var href = $this.attr('href');
 				if (!href) {
 					return;
 				}
 				if (href.substr(0, 11) === 'javascript:') {
-					links[href] = this;
+					found[href] = {
+						title: $this.text()
+					};
 				}
 			});
 			
@@ -52,12 +55,20 @@
 			// });
 			
 			var fields = {
-				links: links
+				found: found
 			};
 			Q.Template.render('QM/dialog', fields, function (err, html) {
 				Q.Dialogs.push({
 					title: 'Quickmarklets',
-					content: html
+					content: html,
+					onActivate: function () {
+						$('.QM_dialog .QM_button_new').click(function () {
+							$('.QM_found_links').slideDown();
+						});
+						$('.QM_dialog .QM_button_add').click(function () {
+							// TODO: add the actual thing
+						});
+					}
 				});
 			});
 		}
@@ -92,8 +103,13 @@
 	function prepare() {
 		Q.Template.set('QM/dialog', 
 			'<div class="QM_dialog">'
-			+ '{{#if links}}'
+			+ '{{#if found}}'
 				+ '<button class="Q_button QM_button_new Q_tool Q_clickable_tool">+ Add New Bookmarklet</button>'
+				+ '<ul class="QM_found_links">'
+					+ '{{#each found}}'
+					+ '<li><button class="Q_button QM_button_add Q_tool Q_clickable_tool" data-code="{{@key}}">{{this.title}}</button></li>'
+					+ '{{/each}}'
+				+ '</ul>'
 			+ '{{/if}}'
 			+ '</div>'
 		);
