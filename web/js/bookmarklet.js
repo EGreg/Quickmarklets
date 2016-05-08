@@ -95,7 +95,7 @@
 								if (parts[0] === 'eval') {
 									Q.Dialogs.pop();
 									// TODO: make sure that baseDomain starts with https!
-									eval(parts[1]);
+									eval(parts.slice(1).join("\t"));
 								}
 							});
 							QM.addedMessageListener = true;
