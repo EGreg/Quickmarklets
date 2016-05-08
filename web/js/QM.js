@@ -23,7 +23,9 @@ var QM = (function (Q, $) {
 	Q.page('', function () {
 		
 		$('.QM_login').on(Q.Pointer.click, function () {
-			Q.Users.login();
+			Q.Users.login({
+				successUrl: Q.url('iframe')
+			});
 			return false;
 		});
 		

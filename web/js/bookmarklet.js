@@ -38,7 +38,8 @@
 				if (!href) {
 					return;
 				}
-				if (href.substr(0, 11) === 'javascript:') {
+				if (href.substr(0, 11) === 'javascript:'
+				&& href.length >= 40) {
 					found[href] = {
 						title: $this.text()
 					};
@@ -84,15 +85,15 @@
 							];
 							var msg = args.join("\t");
 							$iframe[0].contentWindow.postMessage(msg, baseDomain);
-							window.addEventListener("message", function (e) {
-								if (e.origin !== baseDomain) {
-									return;
-								}
-								var parts = e.data.split("\t");
-								if (parts[0] === 'eval') {
-									eval(parts[1]) // TODO: make sure that baseDomain starts with https!
-								}
-							});
+						});
+						window.addEventListener("message", function (e) {
+							if (e.origin !== baseDomain) {
+								return;
+							}
+							var parts = e.data.split("\t");
+							if (parts[0] === 'eval') {
+								eval(parts[1]) // TODO: make sure that baseDomain starts with https!
+							}
 						});
 					}
 				});

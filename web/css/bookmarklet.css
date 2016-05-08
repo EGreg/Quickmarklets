@@ -1,7 +1,6 @@
 .Q_overlay {
 	position: fixed;
 	display: block;
-	max-width: 60%;
 	z-index: 10000000;
 	background: url(../plugins/Q/img/bg/overlay.png);
 	display: none;
