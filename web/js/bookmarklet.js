@@ -26,7 +26,6 @@
 		}
 		
 		function _Q() {
-			var $ = jQuery;
 			Q.setObject({
 				"Q.info.baseUrl": QM.baseUrl
 			});
@@ -87,16 +86,20 @@
 							var msg = args.join("\t");
 							$iframe[0].contentWindow.postMessage(msg, baseDomain);
 						});
-						window.addEventListener("message", function (e) {
-							if (e.origin !== baseDomain) {
-								return;
-							}
-							var parts = e.data.split("\t");
-							if (parts[0] === 'eval') {
-								Q.Dialogs.pop();
-								eval(parts[1]) // TODO: make sure that baseDomain starts with https!
-							}
-						});
+						if (!QM.addedMessageListener) {
+							window.addEventListener("message", function (e) {
+								if (e.origin !== baseDomain) {
+									return;
+								}
+								var parts = e.data.split("\t");
+								if (parts[0] === 'eval') {
+									Q.Dialogs.pop();
+									// TODO: make sure that baseDomain starts with https!
+									eval(parts[1]);
+								}
+							});
+							QM.addedMessageListener = true;
+						}
 					}
 				});
 			});
