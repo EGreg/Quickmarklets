@@ -1,0 +1,123 @@
+.Q_overlay {
+	position: fixed;
+	display: block;
+	max-width: 60%;
+	z-index: 10000000;
+	background: url(../plugins/Q/img/bg/overlay.png);
+	display: none;
+	width: 350px;
+	text-align: left;
+	padding: 0;
+	border: 2px solid #444;
+	z-index: 10000000;
+	opacity: 1;
+	border-radius: 7px;
+	-moz-border-radius: 7px;
+	-webkit-border-radius: 7px;
+	-moz-box-shadow: 0 0 20px #333;
+	-webkit-box-shadow: 0 0 50px #333;
+}
+
+.Q_dialog_mask {
+	display: block;
+	opacity: 0.2;
+	left: 0px;
+	top: 0px;
+	width: 1122px;
+	line-height: 745px;
+	height: 745px;
+	z-index: 9999999;
+	position: absolute;	
+	background-color: black;
+}
+
+.Q_dialog_title {
+	padding: 10px;
+	margin: 0px;
+	border-bottom: 1px solid #333;
+	font-size: 20px;
+	height: 20px;
+	font-weight: bold;
+	color: white;
+	cursor: default;
+	background: #444;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#444444', endColorstr='#111111');
+	background: -webkit-gradient(linear, left top, left bottom, from(#444), to(#111));
+	background: -moz-linear-gradient(top, #444, #111);
+	overflow: hidden;
+	text-overflow: ellipsis;
+	box-sizing: content-box;
+	z-index: 2;
+}
+
+.QM_dialog {
+	text-align: center;
+}
+
+.QM_found_links {
+	display: none;
+}
+
+.Q_button {
+	padding: 0.4em 1em 0.4em 1em;
+	white-space: nowrap;
+	border-width: 1px;
+	font-size: 14px;
+	color: #fff;
+	cursor: pointer;
+	border-radius: 0.3em;
+	-moz-border-radius: 0.3em;
+	-webkit-border-radius: 0.3em;
+	border-color: rgba(200,200,200,0.5);
+	border-bottom-color: rgba(0,0,200,0.2);
+	border-right-color: rgba(0,0,200,0.2);
+	box-shadow: 0 0 1px rgba(50,50,50,0.5);
+	-moz-box-shadow: 0 0 1px rgba(50,50,50,0.5);
+	-webkit-box-shadow: 0 0 1px rgba(50,50,50,0.5);
+	background: #444;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#444444', endColorstr='#222222');
+	background: -webkit-gradient(linear, left top, left bottom, from(#444), to(#222));
+	background: -moz-linear-gradient(top, #444, #222);
+}
+.Q_clickable_stretcher>* {
+	width: 100% !important;
+	height: 100% !important;
+	box-sizing: border-box !important;
+}
+
+.QM_button_new {
+	background: #449944; /* for non-css3 browsers */
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#449944', endColorstr='#227722'); /* for IE */
+	background: -webkit-gradient(linear, left top, left bottom, from(#449944), to(#227722)); /* for webkit browsers */
+	background: -moz-linear-gradient(top,  #449944,  #227722); /* for firefox 3.6+ */
+}
+
+.Q_close {
+	background-image: url(../plugins/Q/img/close.png);
+	position: absolute;
+	right: -15px;
+	top: -15px;
+	cursor: pointer;
+	height: 35px;
+	width: 35px;
+}
+
+.Q_clickable_container { cursor: pointer !important;  }
+.Q_clickable_container .Q_clickable_shadow { display: none; pointer-events: none; }
+.Q_clickable_stretcher>* { width: 100% !important; height: 100% !important; box-sizing: border-box !important; }
+.Q_notTouchscreen .Q_clickable_container.Q_hover .Q_clickable_shadow,
+.Q_notTouchscreen .Q_clickable_container:hover .Q_clickable_shadow
+ { display: block; max-width: none !important; }
+
+.QM_dialog {
+	padding: 10px;
+	box-sizing: border-box;
+}
+
+.QM_dialog iframe {
+	width: 100%;
+	height: 300px;
+	overflow: auto;
+	border: none;
+	background: none;
+}

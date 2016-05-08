@@ -16,7 +16,7 @@
 			"Q/responseExtras": ["QM/before/Q_responseExtras"]
 		},
 		"handlersAfterEvent": {
-			
+			"Users/insertUser": ["QM/after/Users_insertUser"]
 		},
 		"routes": {
 			"": {"module": "QM", "action": "welcome"},
@@ -68,6 +68,15 @@
 		},
 		"login": {
 			"identifierType": "email,mobile"
+		}
+	},
+	"Streams": {
+		"types": {
+			"QM/bookmarklet": {
+				"title": "Untitled Bookmarklet",
+				"creatable": true,
+				"editable": true
+			}
 		}
 	}
 }

@@ -56,6 +56,7 @@
 			// });
 			
 			var fields = {
+				baseUrl: QM.baseUrl,
 				found: found,
 				notEmpty: !Q.isEmpty(found)
 			};
@@ -64,14 +65,26 @@
 					return alert(Q.firstErrorMessage(err));
 				}
 				Q.addStylesheet('css/bookmarklet.css');
+				Q.Dialogs.pop();
 				Q.Dialogs.push({
 					title: 'Quickmarklets',
 					content: html,
 					onActivate: function () {
-						$('.QM_dialog .QM_button_new').click(function () {
+						var $new = $('.QM_button_new', this).click(function () {
 							$('.QM_found_links').slideDown();
 						});
-						$('.QM_dialog .QM_button_add').click(function () {
+						var $iframe = $('iframe', this);
+						var $add = $('.QM_button_add', this).click(function () {
+							
+							$iframe[0].contentWindow.postMessage(msg, '*');
+							// Q.Streams.create({
+							// 	'type': 'QM/bookmarklet'
+							// }, function () {
+							//
+							// }, {
+							// 	publisherId: Q.loggedInUserId(),
+							// 	streamName: 'QM/bookmarklets'
+							// });
 							// TODO: add the actual thing
 						});
 					}
@@ -116,6 +129,7 @@
 					+ '{{/each}}'
 				+ '</ul>'
 			+ '{{/if}}'
+			+ '<iframe src="{{baseUrl}}/iframe"></iframe>'
 			+ '</div>'
 		);
 	}

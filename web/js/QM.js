@@ -62,6 +62,18 @@ var QM = (function (Q, $) {
 		};
 	});
 	
+	Q.page("QM/iframe", function () {
+	    window.addEventListener("message", function (e) {
+			var parts = e.data.split("\t");
+			var title = parts[0];
+			var href = parts[1];
+			localStorage[href] = title;
+			//if(e.origin !== 'B'){ return; } 
+			alert(e.origin);
+			alert(e.data);
+		}, false);
+	});
+	
 	// example stream
 	Q.Streams.define("QM/cool", "js/streams/QM/cool.js");
 	
