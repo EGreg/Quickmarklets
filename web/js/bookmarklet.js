@@ -1,163 +1,130 @@
 (function (w, undefined) {
 	
-	if (!w.__QM) {
-		return alert("__QM should have been defined");
-	}
+	w.__QM = {};
 	var QM = w.__QM;
-	var QMB = QM.Bookmarklet = function () {};
-	QMB.invoke = function () {
-
-		var urlQ = QM.baseUrl + "/plugins/Q/js/Q.js";
-		var urlJ = "https://code.jquery.com/jquery-1.11.3.min.js";
-		var baseDomain = QM.baseUrl.split('/').slice(0, 3).join('/');
+	QM.invoke = function (baseUrl) {
 		
-		if (!w.jQuery || !jQuery.fn || jQuery.fn.jquery < 1.6) {
-			loadScript(urlJ, _J);
-		} else {
-			_J();
+		if (!Q.info.baseUrl) { 
+			Q.info.baseUrl = baseUrl;
 		}
-		
-		function _J() {
-			if (!w.Q || !w.Q.setObject) {
-				loadScript(urlQ, _Q);
-			} else {
-				_Q();
+		Q.init();
+		var parsed = baseUrl.parseUrl();
+		var baseDomain = parsed.scheme + '://' + parsed.host;
+		var title = 'Quickmarklets';
+		QM.baseUrl = baseUrl;
+		Q.setObject({
+			"Q.info.baseUrl": baseUrl
+		});
+		prepare();
+		var found = {};
+		$('a').each(function () {
+			var $this = $(this);
+			var href = $this.attr('href');
+			if (!href) {
+				return;
 			}
-		}
+			if (href.substr(0, 11) === 'javascript:'
+			&& href.length >= 40) {
+				found[href] = {
+					title: $this.text()
+				};
+			}
+		});
 		
-		function _Q() {
-			Q.setObject({
-				"Q.info.baseUrl": QM.baseUrl
-			});
-			var title = 'Quickmarklets';
-			prepare();
-			var found = {};
-			$('a').each(function () {
-				var $this = $(this);
-				var href = $this.attr('href');
-				if (!href) {
-					return;
-				}
-				if (href.substr(0, 11) === 'javascript:'
-				&& href.length >= 40) {
-					found[href] = {
-						title: $this.text()
-					};
-				}
-			});
-			
-			// Q.each(links, function (href) {
-			// 	// found some bookmarklets
-			// 	var $this = $(this);
-			// 	var $a = $('<a />', {href: href});
-			// 	$a.html($this.text())
-			// 	.click(function () {
-			// 		alert($(this).attr('href'));
-			// 		return false;
-			// 	}).appendTo($content);
-			// });
-			
-			var fields = {
-				baseUrl: QM.baseUrl,
-				found: found,
-				notEmpty: !Q.isEmpty(found)
-			};
-			Q.Template.render('QM/dialog', fields, function (err, html) {
-				if (err) {
-					return alert(Q.firstErrorMessage(err));
-				}
-				Q.addStylesheet('css/bookmarklet.css');
-				Q.Dialogs.pop();
-				Q.Dialogs.push({
-					title: 'Quickmarklets',
-					content: html,
-					onActivate: function () {
-						var $iframe = $('iframe', this);
-						var $clickjack = $('.QM_clickjack', this);
-						var $new = $('.QM_button_new', this).click(function () {
-							$('.QM_found_links').slideDown(300, function () {
-								var position = $iframe.position();
-								$clickjack.css({
-									left: position.left + 'px',
-									top: position.top + 'px',
-									width: $iframe.outerWidth() + 'px',
-									height: $iframe.outerHeight() + 'px'
-								});
+		// Q.each(links, function (href) {
+		// 	// found some bookmarklets
+		// 	var $this = $(this);
+		// 	var $a = $('<a />', {href: href});
+		// 	$a.html($this.text())
+		// 	.click(function () {
+		// 		alert($(this).attr('href'));
+		// 		return false;
+		// 	}).appendTo($content);
+		// });
+		
+		var fields = {
+			baseUrl: QM.baseUrl,
+			found: found,
+			notEmpty: !Q.isEmpty(found)
+		};
+		Q.Template.render('QM/dialog', fields, function (err, html) {
+			if (err) {
+				return alert(Q.firstErrorMessage(err));
+			}
+			Q.addStylesheet(baseUrl + '/css/bookmarklet.css');
+			Q.Dialogs.pop();
+			Q.Dialogs.push({
+				title: title,
+				content: html,
+				onActivate: function () {
+					var $iframe = $('iframe', this);
+					var $clickjack = $('.QM_clickjack', this);
+					var $new = $('.QM_button_new', this).click(function () {
+						$('.QM_found_links').slideDown(300, function () {
+							var position = $iframe.position();
+							$clickjack.css({
+								left: position.left + 'px',
+								top: position.top + 'px',
+								width: $iframe.outerWidth() + 'px',
+								height: $iframe.outerHeight() + 'px'
 							});
 						});
-						var $add = $('.QM_button_add', this).click(function () {
-							var $this = $(this);
-							var args = [
-								"add", 
-								$this.text(), 
-								$this.attr('data-code')
-							];
-							var msg = args.join("\t");
-							$iframe[0].contentWindow.postMessage(msg, baseDomain);
-						});
-						var position = $iframe.position();
-						$clickjack.css({
-							left: position.left + 'px',
-							top: position.top + 'px',
-							width: $iframe.outerWidth() + 'px',
-							height: $iframe.outerHeight() + 'px'
-						}).on('click', function () {
-							if (QM.code) {
-								Q.Dialogs.pop();
-								eval(QM.code);
-								QM.code = null;
-							}
-						}).on(Q.Pointer.start, function (e) {
-							var offset = $iframe.offset();
-							var x = Q.Pointer.getX(e) - offset.left;
-							var y = Q.Pointer.getY(e) - offset.top;
-							var args = ["start", x, y];
-							var msg = args.join("\t");
-							$iframe[0].contentWindow.postMessage(msg, baseDomain);
-						});
-						if (!QM.addedMessageListener) {
-							window.addEventListener("message", function (e) {
-								if (e.origin !== baseDomain) {
-									return;
-								}
-								// TODO: make sure that baseDomain starts with https!!!
-								var parts = e.data.split("\t");
-								if (parts[0] === 'code') {
-									QM.code = parts.slice(1).join("\t");
-								}
-							});
-							QM.addedMessageListener = true;
+					});
+					var $add = $('.QM_button_add', this).click(function () {
+						var $this = $(this);
+						var args = [
+							"add", 
+							$this.text(), 
+							$this.attr('data-code')
+						];
+						var msg = args.join("\t");
+						$iframe[0].contentWindow.postMessage(msg, baseDomain);
+					});
+					var position = $iframe.position();
+					$clickjack.css({
+						left: position.left + 'px',
+						top: position.top + 'px',
+						width: $iframe.outerWidth() + 'px',
+						height: $iframe.outerHeight() + 'px'
+					}).on('click', function () {
+						if (QM.code) {
+							Q.Dialogs.pop();
+							eval(QM.code);
+							QM.code = null;
 						}
+					}).on(Q.Pointer.start, function (e) {
+						var offset = $iframe.offset();
+						var x = Q.Pointer.getX(e) - offset.left;
+						var y = Q.Pointer.getY(e) - offset.top;
+						var args = ["start", x, y];
+						var msg = args.join("\t");
+						$iframe[0].contentWindow.postMessage(msg, baseDomain);
+					});
+					if (!QM.addedMessageListener) {
+						window.addEventListener("message", function (e) {
+							if (e.origin !== baseDomain) {
+								return;
+							}
+							var parts = e.data.split("\t");
+							switch (parts[0]) {
+							case 'code':
+								break;
+							case 'clickjack':
+								if (parts[1] === 'show') {
+									$clickjack.show();
+								} else {
+									$clickjack.hide();
+								}
+								break;
+							}
+						});
+						QM.addedMessageListener = true;
 					}
-				});
+				}
 			});
-		}
+		});
 
 	};
-	
-	QMB.invoke(); // when loading this script
-
-    function loadScript(url, callback) {
-
-        var script = document.createElement("script")
-        script.type = "text/javascript";
-
-        if (script.readyState) { //IE
-            script.onreadystatechange = function () {
-                if (script.readyState == "loaded" || script.readyState == "complete") {
-                    script.onreadystatechange = null;
-                    callback();
-                }
-            };
-        } else { //Others
-            script.onload = function () {
-                callback();
-            };
-        }
-
-        script.src = url;
-        document.getElementsByTagName("head")[0].appendChild(script);
-    }
 	
 	function prepare() {
 		Q.Template.set('QM/dialog', 

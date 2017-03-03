@@ -31,21 +31,26 @@
 }
 
 .Q_dialog_title {
-	padding: 10px;
-	margin: 0px;
+	padding: 0px 10px;
+	vertical-align: middle;
+	min-height: 40px;
+	max-height: 80px;
+	line-height: 40px;
+	box-sizing: content-box;
+	margin:0px;
 	border-bottom: 1px solid #333;
 	font-size: 20px;
-	height: 20px;
+	min-width: 200px;
 	font-weight: bold;
 	color: white;
 	cursor: default;
-	background: #444;
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#444444', endColorstr='#111111');
-	background: -webkit-gradient(linear, left top, left bottom, from(#444), to(#111));
-	background: -moz-linear-gradient(top, #444, #111);
+	background: #444; /* for non-css3 browsers */
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#444444', endColorstr='#111111'); /* for IE */
+	background: -webkit-gradient(linear, left top, left bottom, from(#444), to(#111)); /* for webkit browsers */
+	background: -moz-linear-gradient(top,  #444,  #111); /* for firefox 3.6+ */
+	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
-	box-sizing: content-box;
 	z-index: 2;
 }
 
@@ -124,4 +129,5 @@
 
 .QM_clickjack {
 	position: absolute;
+	display: none;
 }

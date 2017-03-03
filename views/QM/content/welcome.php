@@ -7,7 +7,17 @@
 	echo Q::tool("Q/bookmarklet", array(
 		'title' => 'Quickmarklets',
 		'usage' => 'discover and manage bookmarklets on the mobile web',
-		'content' => "javascript:(function(){var QMB = window.__QM && __QM.Bookmarklet; if (QMB) { QMB.invoke(); } else { window.__QM = {baseUrl: $baseUrlJson}; document.body.appendChild(document.createElement('script')).src='$baseUrl/js/bookmarklet.js';}})();"
+		'scripts' => array(
+			'https://code.jquery.com/jquery-1.11.3.min.js', 
+			'plugins/Q/js/Q.js',
+			'js/bookmarklet.js'
+		),
+		'skip' => array(
+			'jQuery',
+			'Q',
+			'__QM'
+		),
+		'code' => "__QM.invoke(baseUrl);"
 	));
 	
 // 	echo Q::tool("Q/bookmarklet", array(

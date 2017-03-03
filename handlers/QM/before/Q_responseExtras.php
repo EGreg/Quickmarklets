@@ -4,8 +4,8 @@ function QM_before_Q_responseExtras()
 {
 	$app = Q_Config::expect('Q', 'app');	
 	
-	Q_Response::addStylesheet('plugins/Q/css/Ui.css');
-	Q_Response::addStylesheet('css/html.css');
+	Q_Response::addStylesheet('plugins/Q/css/Q.css');
+	Q_Response::addStylesheet('css/html.css', '@end');
 
 	if (Q_Config::get('Q', 'firebug', false)) {
 		Q_Response::addScript("https://getfirebug.com/firebug-lite-debug.js");

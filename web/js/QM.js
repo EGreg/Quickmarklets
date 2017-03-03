@@ -99,12 +99,22 @@ var QM = (function (Q, $) {
 				break;
 			}
 		}, false);
-		$('body').on(Q.Pointer.start, '.QM_bookmarklet_preview_tool', true, function () {
+		$('body').on(Q.Pointer.fastclick, '.QM_bookmarklet_preview_tool', true, function () {
 			var stream = this.Q.tool.preview.stream;
 			var msg = "code\t" + stream.fields.code;
 			window.top.postMessage(msg, '*');
 		});
-	});
+		if (Q.Users.loggedInUser) {
+			window.top.postMessage("clickjack\tshow", "*");
+		}
+		Q.Users.onLogin.set(function () {
+			window.top.postMessage("clickjack\tshow", "*");
+		}, 'QM');
+		Q.Users.onLoginLost
+		.or(Q.Users.onLogout).set(function () {
+			window.top.postMessage("clickjack\thide", "*");
+		}, 'QM');
+	}, 'QM');
 	
 	// example stream
 	Q.Streams.define("QM/cool", "js/streams/QM/cool.js");
